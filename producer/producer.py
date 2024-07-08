@@ -3,13 +3,15 @@ import time
 import uuid
 import pika
 import json
+import os
 
 #configuration of interval seconds
 interval = 5
 
-connection = pika.BlockingConnection(
-    pika.ConnectionParameters(host='localhost')
-)
+amqp_url = os.environ['AMQP_URL']
+url_params = pika.URLParameters(amqp_url)
+
+connection = pika.BlockingConnection(url_params)
 
 channel = connection.channel()
 

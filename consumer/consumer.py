@@ -1,13 +1,15 @@
 import pika
 import json
+import os
+
+amqp_url = os.environ['AMQP_URL']
+url_params = pika.URLParameters(amqp_url)
 
 def callback(str, method, properties, body):
     message = json.loads(body)
     print(f"Received {message}")
 
-connection = pika.BlockingConnection(
-    pika.ConnectionParameters('localhost')
-)
+connection = pika.BlockingConnection(url_params)
 
 channel = connection.channel()
 
